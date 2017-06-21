@@ -1,0 +1,176 @@
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        form {  /* For the hidden login form from bing maps */
+            margin: 0;
+        }
+
+        header {
+            background: rgb(0, 98, 175);
+            height: 50px;
+            line-height: 50px;
+            text-indent: 10px;
+        }
+
+        header, header a {
+            color: white;
+            text-decoration: none;
+
+            font-family: sans-serif;
+            font-weight: 100;
+            font-size: 30px;
+        }
+
+        header button {
+            width: 55px;
+            height: 50px;
+
+            border: none;
+            float: left;
+
+            border: rgb(0, 78, 145) solid 10px;
+            background: linear-gradient(to bottom, white 0, white 4px, transparent 4px, transparent 13px, white 13px, white 17px, transparent 17px, transparent 26px, white 26px, white 30px, white), rgb(0, 78, 145);
+        }
+
+        #gauge_svg {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+        }
+        .path--background {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2px;
+        }
+        svg {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 15px;
+        }
+        svg .gauge_label {
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+    </style>
+
+    <script src="/static/js/jquery.1.7.2.min.js"></script>
+
+    {% if use_bing %}
+    <script async defer type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=getMapBing'></script>
+    {% else %}
+    <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcGNp1ktAaDu1giZj5b05i8_q7b9PHbA8&libraries=visualization&callback=getMap"></script>
+    {% endif %}
+
+    <script>
+        var map, heatMap, pointArray;
+        var locations = [];
+        var numUsers = 0;
+
+        {% if show_compute_gauge %}
+        document.drawCompute = true;
+        {% endif %}
+
+        function getMapBing() {
+            map = new Microsoft.Maps.Map(document.getElementById('map'), {
+                credentials: 'Arw2x_2guKsHB8xiOHq7B0kPbmL7JbYDfPRnQ_9TLf1QsJnO-Mk5w3fcIzEjToiZ',
+                center: new Microsoft.Maps.Location(37.0902, -95.7129),
+                mapTypeId: Microsoft.Maps.MapTypeId.canvasLight,
+                zoom: 5
+            });
+
+            Microsoft.Maps.loadModule('Microsoft.Maps.HeatMap', function () {
+                // Creating sample Pushpin data within map view
+                var mapDiv = map.getRootElement();
+
+                var locations = [];
+                var heatMap = new Microsoft.Maps.HeatMapLayer(locations);
+                map.layers.insert(heatMap);
+
+                heatMap.setOptions({
+                    intensity: 0.25,
+                    opacity: 0.8,
+                    radius: 25,
+                    colorGradient: {
+                        '0': 'Green',
+                        '0.6': 'Yellow',
+                        '1': 'Red'
+                    }
+                });
+
+                // Generate a new point every 0.5 seconds
+                setInterval(function() {
+                    $.post("{% url 'heatmap-home' %}",
+                        function (data) {
+                            $.each(data, function (i, p) {
+                                var point = new Microsoft.Maps.Location(p.lat, p.long);
+                                locations.push(point);
+                            });
+
+                            heatMap.setLocations(locations);
+                        }, 'json');
+                }, 1000);
+            });
+        }
+    </script>
+
+    <script>
+        // See: https://www.heatmaptool.com/documentation.php
+        function getMap() {
+            mapCenter =  new google.maps.LatLng(47.6117309, -122.3351027);
+            locations = [ mapCenter ];
+
+            var mapOptions = {
+                zoom: 5,
+                center: new google.maps.LatLng(37.0902, -95.7129)
+            };
+
+            map = new google.maps.Map($('.map_div')[0], mapOptions);
+            pointArray = new google.maps.MVCArray(locations);
+            heatmap = new google.maps.visualization.HeatmapLayer(
+                {
+                    map: map,
+                    data: pointArray,
+                    maxIntensity: 5, opacity: 0.3, radius: 25
+                    //maxIntensity: 5, opacity: 0.3, radius: 15
+                    //gradient: 'fire',
+                }
+            );
+            heatmap.setMap(map);
+
+            // Generate a new point every 0.5 seconds
+            setInterval(function() {
+                $.post("{% url 'heatmap-home' %}",
+                    function (data) {
+                        $.each(data, function (i, p) {
+                            var point = new google.maps.LatLng(p.lat, p.long);
+                            pointArray.push(point);
+                        });
+                    }, 'json');
+            }, 1000);
+        }
+    </script>
+
+    <script src="/static/js/d3.min.js"></script>
+    <script src="/static/js/index.js"></script>
+</head>
+
+<body {% if not use_bing %} onload="getMap()" {% endif %}>
+    <header style="width:100%;">
+        <div style="float:left;width:45%;">
+            <button></button>
+            <a href="#">Microsoft Build</a> &gt; <a href="#">United States</a>
+        </div>
+        <div style="float:right;width:55%;">
+            <a href="#" style="float: right;margin-right:10px;">Server: {{server_name}}</a>
+        </div>
+    </header>
+    <div id="map" class="map_div" style="width: 100%; height: calc(100% - 50px);"></div>
+    <svg id="gauge_svg" width="300" height="130">
+    </svg>
+</body>
+
+</html>
