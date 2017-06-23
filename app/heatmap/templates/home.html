@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <html>
 <head>
     <style>
@@ -57,7 +59,7 @@
         }
     </style>
 
-    <script src="/static/js/jquery.1.7.2.min.js"></script>
+    <script src="{% static "js/jquery.1.7.2.min.js" %}" type="text/javascript"></script>
 
     {% if use_bing %}
     <script async defer type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=getMapBing'></script>
@@ -154,8 +156,9 @@
         }
     </script>
 
-    <script src="/static/js/d3.min.js"></script>
-    <script src="/static/js/index.js"></script>
+    <script src="{% static "js/d3.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/index.js" %}" type="text/javascript"></script>
+
 </head>
 
 <body {% if not use_bing %} onload="getMap()" {% endif %}>

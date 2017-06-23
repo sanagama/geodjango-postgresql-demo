@@ -3,7 +3,7 @@
 SCRIPTDIR=$HOMEDIR/scripts
 
 # Setup PostgreSQL database and tables
-printf "\Creating demo database, user and tables. One moment..."
+printf "\nCreating demo database, user and tables. One moment..."
 printf "\n DEMO_DB_HOST: $DEMO_DB_HOST"
 printf "\n DEMO_DB_NAME: $DEMO_DB_NAME"
 printf "\n DEMO_DB_USER: $DEMO_DB_USER"

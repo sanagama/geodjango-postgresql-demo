@@ -20,6 +20,11 @@ ENV HOMEDIR=/src \
     DEMO_DB_USER=demo \
     DEMO_DB_PASSWORD=Password1
 
+# Set the PORT environment variable
+# Azure Web App Linux adds the PORT environment variable to the when you use this Docker image as a custom image
+# See: https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-using-custom-docker-image
+ENV PORT=8000
+
 # Alpine Packages
 #   * bash: so we can access /bin/bash
 #   * git: to ease up clones of repos
