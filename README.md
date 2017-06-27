@@ -50,6 +50,8 @@ docker pull sanagama/geodjango-postgresql-demo
 
 >**Tip:** Skip this step if you already have an existing Azure Database for PostgreSQL server that you wish to use with the demo app.
 
+>**NOTE:** If you wish to use an existing Azure Database for PostgreSQL server, then make sure it has an empty database called ***demodb*** and a superuser called ***demo***.
+
 #### Create the Azure Database for PostgreSQL server
 
 Create an Azure Database for PostgreSQL server required for this demo in one of two ways:
@@ -77,7 +79,7 @@ Storage | ***50 GB***
 
 >**NOTE:** Follow the instructions at [Configure a server-level firewall rule](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal) to allow  clients from all IPs (0.0.0.0 - 255.255.255.255) to connect to the Azure Database for PostgreSQL server.
 
-#### Create the demo database in the Azure Database for PostgreSQL server
+#### Create the *demodb* database in the Azure Database for PostgreSQL server
 
 1. Start the Docker container interactively
 
