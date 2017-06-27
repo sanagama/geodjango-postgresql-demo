@@ -203,11 +203,7 @@ Jump to:
 
 1. Open the Azure Portal in your browser and sign-in with your Microsoft account.
 
-1. Click **+New**
-
-1. Click **Databases**
-
-1. Click **Azure Database for PostgreSQL**
+1. Click **+New** -> **Databases** -> **Azure Database for PostgreSQL**
 
 1. Fill out the following information to create a new PostgreSQL server.
 
