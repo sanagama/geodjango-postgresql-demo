@@ -90,8 +90,5 @@ RUN pip install --upgrade pip && pip install -r $HOMEDIR/app/requirements.txt
 # EXPOSE port to allow communication to/from the GeoDjango web app
 EXPOSE $PORT
 
-# Run subsequent commands as user 'postgres'
-USER $POSTGRES_USER
-
 CMD ["sh", "-c", "$HOMEDIR/scripts/docker-start.sh"]
 # done!

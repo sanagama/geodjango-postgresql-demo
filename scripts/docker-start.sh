@@ -4,6 +4,9 @@
 # 1. Initialize and start the local instance of PostgreSQL
 # 2. Start GeoDjango web app
 #
+# NOTE: Docker calls this script as the 'root' user
+# We will use su-exec to run as $POSTGRES_USER to start the local instance of PgSQL and Django
+#
 
 printf "\n ** Python GeoDjango + PostgreSQL Demo in Docker **"
 printf "\n https://github.com/sanagama/geodjango-postgresql-demo"
@@ -16,7 +19,7 @@ printf "\nScript is running as user: `$CURRENT_USER`\n"
 # Skip if using Azure or another PostgreSQL instance
 if [[ -z "${AZ_PGSQL_SERVER// }" ]]; then
     printf "\n** Using local PostgreSQL instance **\n"
-    source $SCRIPTDIR/start-local-pgsql.sh
+    su-exec $POSTGRES_USER $SCRIPTDIR/start-local-pgsql.sh
 else
     printf "\n ** Using Azure PostgreSQL instance: $AZ_PGSQL_SERVER\n"
     export DB_HOST_AZ=$AZ_PGSQL_SERVER.database.windows.net
@@ -26,4 +29,4 @@ else
 fi
 
 # Start web app
-source $SCRIPTDIR/start-webapp.sh
+su-exec $POSTGRES_USER $SCRIPTDIR/start-webapp.sh
