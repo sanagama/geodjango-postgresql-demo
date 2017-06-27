@@ -94,7 +94,7 @@ Storage | ***50 GB***
 	>**Tip:** Set ***AZ_PGSQL_SERVER*** to the ***server name*** of the Azure Database for PostgreSQL you created in the [One-time Demo Setup](#one-time-demo-setup) section.
 
 	```
-	AZ_PGSQL_SERVER=<server-name-without-database>
+	AZ_PGSQL_SERVER=<server-name-without-database.windows.net>
 
 	DB_HOST=$AZ_PGSQL_SERVER.database.windows.net
 
@@ -253,7 +253,7 @@ ls -al ./scripts/*.dump
 	>**Tip:** Set ***AZ_PGSQL_SERVER*** to the ***server name*** of the Azure Database for PostgreSQL you created in the [One-time Demo Setup](#one-time-demo-setup) section.
 
 	```
-	AZ_PGSQL_SERVER=<server-name-without-database>
+	AZ_PGSQL_SERVER=<server-name-without-database.windows.net>
 
 	DB_HOST=$AZ_PGSQL_SERVER.database.windows.net
 
