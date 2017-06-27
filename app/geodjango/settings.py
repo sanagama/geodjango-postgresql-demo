@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -24,9 +23,7 @@ SECRET_KEY = 'sanagama-geodjango-pgsql-demo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = ['*']
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
@@ -34,10 +31,10 @@ CORS_ORIGIN_ALLOW_ALL = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'HOST': os.environ.get('DEMO_DB_HOST', 'localhost'),
-        'NAME': os.environ.get('DEMO_DB_NAME', 'demodb'),
-        'USER': os.environ.get('DEMO_DB_USER', 'demo'),
-        'PASSWORD': os.environ.get('DEMO_DB_PASSWORD', 'Password1'),
+        'HOST': os.environ.get('DB_HOST', ''),
+        'NAME': os.environ.get('DB_NAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
     }
 }
 

@@ -12,18 +12,34 @@ MAINTAINER Sanjay Nagamangalam <sanagama2@gmail.com>
 # Chaining the ENV allows for only one layer, instead of one per ENV statement
 ENV HOMEDIR=/src \
     PYTHONUNBUFFERED=1 \
+    CURRENT_USER="id -un" \
+
+    # Default PostgreSQL environment variables
     POSTGRES_USER=postgres \
     POSTGRES_PASSWORD=postgres \
     PGDATA=/var/lib/postgresql/data \
-    DEMO_DB_HOST=localhost \
-    DEMO_DB_NAME=demodb \
-    DEMO_DB_USER=demo \
-    DEMO_DB_PASSWORD=Password1
+    DB_HOST=localhost \
+    DB_NAME=demodb \
+    DB_USER=demo \
+    DB_PASSWORD=Password1 \
+
+    # Default Azure environment variables 
+    AZ_PGSQL_COMPUTE_UNITS=50 \
+    AZ_PGSQL_PERF_TIER=Basic \
+    AZ_LOCATION=WestUS \
+    AZ_RESOURCE_GROUP="" \
+    AZ_PGSQL_SERVER=""
+
+# Set computed environment variables in a different ENV so earlier ENV gets picked up
+# See: https://docs.docker.com/engine/reference/builder/#environment-replacement
+ENV SCRIPTDIR=$HOMEDIR/scripts
+ENV DB_USER_AZ=$DB_USER@$AZ_PGSQL_SERVER
+ENV DB_HOST_AZ=$AZ_PGSQL_SERVER.database.windows.net
 
 # Set the PORT environment variable
-# Azure Web App Linux adds the PORT environment variable to the when you use this Docker image as a custom image
+# Azure Web App Linux adds the PORT environment variable to the container when you use a custom Docker image
 # See: https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-using-custom-docker-image
-ENV PORT=8000
+ENV PORT=8080
 
 # Alpine Packages
 #   * bash: so we can access /bin/bash
@@ -31,9 +47,10 @@ ENV PORT=8000
 #   * su-exec: switch user and group id, setgroups and exec
 ENV ALPINE_PACKAGES="\
   bash \
-  curl \
   git \
   su-exec \
+  curl \
+  nano \
 "
 
 # Python Alpine Packages
@@ -57,9 +74,6 @@ RUN echo \
   && apk add --no-cache $ALPINE_PACKAGES $PYTHON_PACKAGES \
   && rm -rf /var/cache/apk/*
 
-# Install Azure CLI 2.0 (TBD: future enhancement!)
-# RUN curl -L https://aka.ms/InstallAzureCli | bash
-
 WORKDIR $HOMEDIR
 
 # Copy demo web app directory to image
@@ -67,12 +81,17 @@ RUN mkdir -pv $HOMEDIR
 WORKDIR $HOMEDIR
 COPY . $HOMEDIR
 
+# Change ownership from 'root' to 'postgres'
+RUN chown -R $POSTGRES_USER $HOMEDIR
+
 # Install Django & requirements
 RUN pip install --upgrade pip && pip install -r $HOMEDIR/app/requirements.txt
 
-# EXPOSE port 8000 to allow communication to/from the GeoDjango web ap
-EXPOSE 8000
+# EXPOSE port to allow communication to/from the GeoDjango web app
+EXPOSE $PORT
 
-# Run script to start PostgreSQL, create user/database/tables and start the GeoDjango web app.
-CMD ["sh", "-c", "$HOMEDIR/start.sh"]
+# Run subsequent commands as user 'postgres'
+USER $POSTGRES_USER
+
+CMD ["sh", "-c", "$HOMEDIR/scripts/docker-start.sh"]
 # done!
