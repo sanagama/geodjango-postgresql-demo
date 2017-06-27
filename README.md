@@ -208,20 +208,22 @@ Jump to:
 1. Click **Azure Database for PostgreSQL**
 
 1. Fill out the following information to create a new PostgreSQL server.
-	- Server Name: "**pgsqlgisdemo**" (If this is taken, please pick a different name).
-	- Subscription: (Select the desired subscription)
-	- Resource Group: "**pgsqlgisdemo-rg**"
-	- Server admin login name: "**demo**"
-	- Password: "**Password1**"
-	- Location: (Select the desired location)
-	- Version: **9.6**
 
-1. Click on the *Pricing tier* tab, make the following selections and click *OK*.
-	- Tier: **Basic**
-	- Compute Units: **50**
-	- Storage: **50 GB**
+Property | Value
+--------------- | ------
+Server Name | ***pgsqlgisdemo*** (If this is taken, please enter a different name)
+Subscription | Select the desired subscription
+Resource Group | Select the desired resource group
+Server admin login | ***demo***
+Password | ***Password1***
+Location | Select the desired location
+PostgreSQL Version | ***9.6***
+Pricing tier | ***Basic***
+Compute Units | ***50***
+Storage | ***50 GB***
 
-1. Confirm the selections but **DO NOT** click **Create**.
+  
+>**Note:** Confirm the selections but **DO NOT** click **Create**.
 
 (**Talking Point**) To save time during this demo, I have pre-created an Azure Database for PostgreSQL server and setup firewall rules.
 
@@ -332,7 +334,7 @@ Close all browsers and stop Docker. Remember to delete your Azure resources so y
 
 ## Host in Azure Web App Linux
 
->**TIP:** This is documented here: [Using a custom Docker image for Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-using-custom-docker-image)
+>**TIP:** Helpful documentation: [Using a custom Docker image for Azure Web App on Linux](https://docs.microsoft.com/en-us/azure/app-service-web/app-service-linux-using-custom-docker-image)
 
 Follow the steps below to create an Azure Web App (Linux) with the demo web app Docker image.
 
@@ -369,7 +371,11 @@ Follow the steps below to use an Azure Database for PostgreSQL server with the d
 
 Key | Value
 --------------- | ---
-AZ_PGSQL_SERVER| Azure PostgreSQL server name (without the .database.windows.net)
+AZ_PGSQL_SERVER| Azure Database for PostgreSQL server name (without the .database.windows.net)
+
+>**NOTE:** The demo web app expects the Azure Database for PostgreSQL server to have a database called ***demodb*** and a superuser called ***demo***.
+
+>Make sure the Azure PostgreSQL Server you specify here was setup according to the [One-time Demo Setup](#one-time-demo-setup) section.
 
 Click ***Save*** and restart the Azure Web App (Linux) instance.
 
