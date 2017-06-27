@@ -121,11 +121,11 @@ You will add tables and data to the ***demodb*** as part of ***pg_restore*** dur
 This section walks througn the demo steps below:
 
 Jump to:
-1. [Introduce the Web App](#introduce-the-web-app)
-1. [Create Azure PostgreSQL Server](#create-azure-postgresql=server)
-1. [Restore local database to Azure PostgreSQL](#restore-local-database-to-azure-postgresql)
-1. [Update connection string in local web app](#update-connection-string-in-local-web-app)
-1. [Scale up Azure PostgreSQL server](#scale-up-azure-postgresql-server)
+1. [Introduce the Web App](#1-introduce-the-web-app)
+1. [Create Azure PostgreSQL Server](#2-create-azure-postgresql-server)
+1. [Restore local database to Azure PostgreSQL](#3-restore-local-database-to-azure-postgresql)
+1. [Update connection string in local web app](#4-update-connection-string-in-local-web-app)
+1. [Scale up Azure PostgreSQL server](#5-scale-up-azure-postgresql-server)
 
 ### 1. Introduce the Web App
 

@@ -1,6 +1,6 @@
 # Azure Database for PostgreSQL Demo - Docker
 
-Get it from Docker Hub: [sanagama/geodjango-postgresql-demo](https://hub.docker.com/r/sanagama/geodjango-postgresql-demo)
+Demo source code: https://github.com/sanagama/geodjango-postgresql-demo
 
 This Docker image is based on [mdillon/postgis:9.6-alpine](https://hub.docker.com/r/mdillon/postgis/)
 
@@ -26,15 +26,13 @@ docker run -it -p 8080:8080 --user postgres --entrypoint /bin/bash sanagama/geod
 ```
 
 ### Use with Azure Database for PostgreSQL
-To use with Azure Database for PostgreSQL, pass the ***server name*** as an environment variable:
+To use with Azure Database for PostgreSQL, pass the ***server name*** in the ***AZ_PGSQL_SERVER*** environment variable:
 
 ```
 docker run -it -p 8080:8080 -e AZ_PGSQL_SERVER=server-name-without-database.windows.net> sanagama/geodjango-postgresql-demo
 ```
 
->**NOTE:** The demo web app expects the server to have a database called ***demodb*** and a user called ***demo**. 
-
-> See the detailed walkthrough at: <https://github.com/sanagama/geodjango-postgresql-demo>
+>**NOTE:** The demo web app expects the server to have a database called ***demodb*** and a user called ***demo***. See the detailed walkthrough at: <https://github.com/sanagama/geodjango-postgresql-demo>
 
 ### Run in Azure Web App on Linux
 To use this Docker image in Azure Web App on Linux, see: 
