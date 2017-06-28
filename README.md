@@ -57,7 +57,12 @@ docker pull sanagama/geodjango-postgresql-demo
 Create an Azure Database for PostgreSQL server required for this demo in one of two ways:
 - [Create an Azure Database for PostgreSQL - Portal](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-portal)
 - [Create an Azure Database for PostgreSQL using the Azure CLI](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-database-azure-cli) 
-
+	
+    ```
+    az postgres server create --resource-group <resourcegroup> --name <servernameWithoutDatabaseWindowsNet>  --location westus --admin-user demo --admin-password Password1 --performance-tier Basic --compute-units 50 --version 9.6
+    az postgres server firewall-rule create --resource-group <resourcegroup> --server <servernameWithoutDatabaseWindowsNet> --name AllowAllIps --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
+    ```
+	
 Use the following information when you create the Azure Database for PostgreSQL server:
 
 Property | Value
